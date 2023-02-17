@@ -1,0 +1,124 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="txt bold dark mb-0">Invoice Listings</h4>
+      <button class="btn btn-primary w-10 mb-2 py-2">Create Invoice</button>
+    </div>
+  </div>
+
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col">
+        <div class="table-responsive-md">
+          <table class="table txt fs-16">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Invoice ID</th>
+                <th>From</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let list of partnerInvoice">
+                <label>
+                  <input type="checkbox" />
+                </label>
+                <td>{{ list?.invoiceId }}</td>
+                <td>{{ list?.to }}</td>
+                <td>{{ list?.invoiceDate }}</td>
+                <td>
+                  <div class="tooltips">
+                    <span class="view" [ngClass]="
+                                        list?.status?.status == 'Submitted'
+                                          ? 'badge success'
+                                          : list?.status?.status == 'Approved'
+                                          ? 'badge success'
+                                          : list?.status?.status == 'Paid'
+                                          ? 'badge warning'
+                                          : list?.status?.status == 'Rejected'
+                                          ? 'badge danger'
+                                          : 'badge danger'
+                                      ">{{ list?.status?.status }}</span>
+                  </div>
+                </td>
+                <td>
+                  <a (click)="onPreview($any(list)?.invoiceId)">View invoice</a>
+                </td>
+                <td>
+                  <div>
+                    <button class="btn" type="button">
+                      <img src="assets/images/icon-more.svg" />
+                    </button>
+                    <ul>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- need to check on this modal its not triggering -->
+<div class="modal modal-backdrop" tabindex="-1" [ngStyle]="{ display: dialogConfig === 'rateCard' ? 'block' : 'none' }">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h4 class="modal-title txt mb-0 fw-6 dark">Update Invoice</h4>
+        <!-- <button type="button" class="close" (click)="dialogConfig = ''">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngFor="let n of candidateItemList; let i = index">
+          <div class="col-12 col-md-6">
+            <div class="d-flex align-items-center">
+              <div class="form-group form-check me-3">
+                <!-- <input type="checkbox" class="form-check-input" /> -->
+              </div>
+              <div class="d-flex">
+                <div class="avatar-group me-2">
+                  <img [src]="n?.image" alt="" class="avatar" />
+                </div>
+                <div class="acg">
+                  <p class="txt dark fw-6 mb-0">{{ n?.ownerName }}</p>
+                  <p class="txt sm mb-0">{{ n?.projectName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-3" style="display: flex">
+            <div class="form-label-group fxf lg">
+              <input type="text" class="form-control input-icon" [value]="n.amount" placeholder="Amount"
+                (change)="rateEntry($event, n)" (keypress)="onlyPrice($event)" />
+              <label>Amount</label>
+            </div>
+            <img src="assets/images/price-doller.svg" alt="BaseRate" class="label-icon" />
+          </div>
+          <div class="col-12 col-md-3" style="display: flex">
+            <div class="form-label-group fxf lg">
+              <input type="text" class="form-control input-icon" [value]="n.totalHours" placeholder="Hours"
+                (change)="hoursEntry($event, n)" (keypress)="onlyPrice($event)" />
+              <label>Total Hours</label>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <button class="btn btn-primary" data-dismiss="modal" aria-label="Close" type="button" [disabled]="!_publish"
+            (click)="publish()">
+            Publish
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

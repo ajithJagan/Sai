@@ -1,0 +1,67 @@
+<div class="card">
+    <div class="card-header">
+      Invoice Listings
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col">
+                <div class="table-responsive-md">
+                    <table class="table txt fs-16">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Invoice ID</th>
+                                <th>From</th>
+                                <th>Due Date</th>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of invoiceDetails">
+                                <label>
+                                    <input type="checkbox" />
+                                </label>
+                                <td>{{ a?.invoiceId }}</td>
+                                <td>{{ a?.seekerProjectName }}</td>
+                                <td>FlexCub</td>
+                                <td>{{ a?.date }}</td>
+                                <td>
+                                    <div>
+                                        <span [ngClass]="a?.status?.status == 'Submitted'
+                                        ? 'badge success'
+                                        : a?.status?.status == 'Approved'
+                                        ? 'badge success'
+                                        : a?.status?.status == 'Paid'
+                                        ? 'badge warning'
+                                        : a?.status?.status == 'Rejected'
+                                        ? 'badge danger'
+                                        : 'badge  danger'">
+                                            {{ a?.status?.status }}
+                                        </span>
+                                        <div *ngIf="a?.comments !== 'NA'">
+                                            <p>{{a?.comments}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a>view invoice</a>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button class="btn" type="button">
+                                            <img src="assets/images/icon-more.svg" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

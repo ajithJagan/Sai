@@ -1,0 +1,196 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;800&family=Roboto:wght@300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
+@import url("https://pro.fontawesome.com/releases/v5.10.0/css/all.css");
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, "Helvetica Neue", sans-serif;
+  background-color: var(--background-bg);
+}
+
+@media print {
+  body {
+    display: none;
+  }
+}
+
+.badge {
+  &.success {
+    background-color: var(--bs-teal);
+    color: var(--white-text);
+  }
+  &.info {
+    background-color: var(--bs-cyan);
+    color: var(--white-text);
+  }
+  &.danger {
+    background-color: var(--bs-red);
+    color: var(--white-text);
+  }
+  &.warning {
+    background-color: var(--bs-yellow);
+    color: var(--white-text);
+  }
+  &.blue {
+    background-color: var(--bs-blue);
+    color: var(--white-text);
+  }
+  &.purple {
+    background-color: var(--bs-purple);
+    color: var(--white-text);
+  }
+  &.primary {
+    background-color: var(--primary-hex);
+    color: var(--primary-contrast-hex);
+  }
+}
+
+.txt {
+  color: var(--default-text);
+  font-weight: 400;
+  &.bold {
+    font-weight: 600;
+  }
+  &.bolder {
+    font-weight: 800;
+  }
+  &.thin {
+    font-weight: 200;
+  }
+  &.dark {
+    color: var(--dark-text);
+  }
+  &.primary {
+    color: var(--primary-hex);
+  }
+  &.primary-dark {
+    color: var(--primary-hex-dark);
+  }
+  &.sm {
+    font-size: 12px;
+  }
+  &.underline {
+    text-decoration: underline;
+  }
+}
+
+@for $i from 10 through 30 {
+  .txt.fs-#{$i} {
+    font-size: #{$i}px;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.fx-border {
+  border-top: 1px solid var(--bs-border-color-translucent);
+}
+
+/** Datepicker changes  */
+bs-datepicker-inline {
+  &.flat {
+    .bs-datepicker {
+      box-shadow: none;
+    }
+  }
+  &.pxy-0 {
+    .bs-datepicker-container {
+      padding: 0;
+    }
+  }
+}
+
+.theme-dark-blue .bs-datepicker-head,
+.theme-dark-blue .bs-datepicker-body table td span.selected,
+.theme-dark-blue .bs-datepicker-body table td.selected span,
+.theme-dark-blue .bs-datepicker-body table td span[class*="select-"]:after,
+.theme-dark-blue .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: var(--primary-hex);
+}
+
+/** Datepicker changes  */
+
+.avatar {
+  background-color: transparent;
+  color: #fff;
+  display: inline-block;
+  font-weight: 500;
+  height: 34px;
+  line-height: 38px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+  width: 34px;
+  position: relative;
+  white-space: nowrap;
+  margin: 0 10px 0 0;
+  border-radius: 50%;
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  &.xs {
+    width: 24px;
+    height: 24px;
+  }
+  &.md {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  &.lg {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+  &.xl {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.avatar-flex {
+  align-items: center;
+  display: inline-flex;
+  font-size: inherit;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+$sizes: 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500;
+@each $i in $sizes {
+  .img-fluid.size-mh-#{$i} {
+    max-height: #{$i}px;
+  }
+  .img-fluid.size-mw-#{$i} {
+    max-width: #{$i}px;
+  }
+  .mh-#{$i} {
+    max-height: #{$i}px;
+  }
+  .mw-#{$i} {
+    max-width: #{$i}px;
+  }
+}
+
+mat-paginator {
+  &.size-none {
+    .mat-paginator-container {
+      > .mat-paginator-page-size {
+        display: none;
+      }
+    }
+  }
+}

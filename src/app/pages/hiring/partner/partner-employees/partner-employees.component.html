@@ -1,0 +1,70 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex align-items-center justify-content-between">
+      <h5 class="card-title">Employees list</h5>
+      <div class="position-relative fr-input-group w-fc d-none d-lg-block">
+        <button class="btn ico ne">
+          <i class="fal fa-search"></i>
+        </button>
+        <input type="text" class="form-control" placeholder="Search for Employees" [(ngModel)]="_search">
+      </div>
+      <button class="btn btn-primary btn-with-icon">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add Talent
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive mt-0 mb-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Employee ID</td>
+            <td>Employee Name</td>
+            <td>Location</td>
+            <td>Level & Experience</td>
+            <td>Designation</td>
+            <td>Status</td>
+            <td>Joined Date</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let n of (owners$ | async) | searchFilter: _search: ['location', 'employeeName']; let i = index">
+            <td>EMP-{{n?.employeeId}}</td>
+            <td>{{n?.employeeName}}</td>
+            <td>{{!nullish.includes(n?.location) ? n?.location : '-'}}</td>
+            <td>{{!nullish.includes(n?.levelExperience) ? n?.levelExperience : '-'}}</td>
+            <td>-</td>
+            <td>
+              <p class="txt bold mb-0" [ngClass]="n?.status ? 'text-success' : 'text-danger'">
+                {{n?.status ? 'Active' : 'Inactive'}}</p>
+            </td>
+            <td>{{n?.joinedDate ? (n?.joinedDate | date: 'mediumDate') : '-'}}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <a href="javascript:void(0)" (click)="navigate('/hiring/history', {empId: n?.employeeId})"
+                  class="txt primary bold underline me-2">View job history</a>
+
+                <div class="btn-group" dropdown container="body" placement="bottom right">
+                  <button dropdownToggle type="button" class="btn btn-icon">
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="menuitem" (click)="changeStatus(n)"><a class="dropdown-item">Change status</a></li>
+                  </ul>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="(owners$ | async)?.length === 0" class="no-data">
+            <td colspan="8">No employees found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <mat-paginator [length]="pageOptions.length" [pageSize]="pageOptions.size"
+      [pageSizeOptions]="pageOptions.sizeOptions" class="size-none">
+    </mat-paginator>
+  </div>
+</div>

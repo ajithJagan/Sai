@@ -1,0 +1,422 @@
+<main>
+    <ng-container [ngTemplateOutlet]="first" *ngIf="step === 1"></ng-container>
+    <ng-container [ngTemplateOutlet]="second" *ngIf="step === 2"></ng-container>
+    <ng-container [ngTemplateOutlet]="third" *ngIf="step === 3"></ng-container>
+    <ng-container [ngTemplateOutlet]="four" *ngIf="step === 4"></ng-container>
+    <ng-container [ngTemplateOutlet]="five" *ngIf="step === 5"></ng-container>
+    <ng-container [ngTemplateOutlet]="six" *ngIf="step === 6"></ng-container>
+    <ng-container [ngTemplateOutlet]="seven" *ngIf="step === 7"></ng-container>
+    <ng-container [ngTemplateOutlet]="eight" *ngIf="step === 8"></ng-container>
+</main>
+
+<ng-template #first>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Your Job Requirements</h5>
+                <button class="btn btn-primary btn-with-icon right" (click)="next(2)"><i class="fa fa-plus"
+                        aria-hidden="true"></i>
+                    Add New</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive-md">
+                <table class="table txt fs-16">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Job Title</th>
+                            <th>Location</th>
+                            <th>Level & Experience</th>
+                            <th>Positions</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of tabledata">
+                            <td scope="row">
+                                <input type="checkbox" aria-label="Checkbox for following text input" />&nbsp;
+                                {{ a.jobId }}
+                            </td>
+                            <td><img src="assets/images/document-icon.svg" /> {{ a.jobTitle }}</td>
+                            <td>{{ a.jobLocation }}</td>
+                            <td>
+                                {{ a.ownerSkillYearOfExperience?.ownerSkillLevelEntity?.skillLevelDescription }}
+                                & {{ a.ownerSkillYearOfExperience?.experience }}
+                            </td>
+                            <td>{{ a.numberOfPositions }}2</td>
+                            <td>
+                                <p [ngClass]="a.status == 'New' ? 'badge warning' : 
+                                             a.status == 'In Hiring' ? 'badge success' : 
+                                             a.status == 'On-Hold' ? 'badge warning' : 'badge danger'">
+                                    {{ a.status }}
+                                </p>
+                            </td>
+                            <td>
+                                <a href="!#" *ngIf="a.status !== 'In Hiring'">View Candidates </a>
+                                <a href="!#" *ngIf="a.status == 'In Hiring'">View Selection Process</a>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="assets/images/icon-more.svg" />
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item">View Candidates</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #second>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Create New Job</h5>
+                <button class="btn btn-primary btn-with-icon right" (click)="next(3)">
+                    <i class="fa fa-plus" aria-hidden="true"></i>Add New
+                </button>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <img src="assets/images/joblist-bgimg.svg" class="card-img pt-5" />
+            <p class="card-text ">No jobs found !</p>
+            <button (click)="next(3)" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>Create Your
+                First Job</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #third>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Create New Job</h5>
+                <button class="btn btn-danger" routerLink="/dashboard">Cancel</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <h2 class="card-text pt-5 txt primary-dark text-center">Let’s get started with some basic info</h2>
+            <div [formGroup]="form" class="pt-4">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control form-control-lg" formControlName="jobtitle"
+                                [ngClass]="{ 'is-invalid': f?.jobtitle?.touched && f?.jobtitle?.errors }"
+                                placeholder="Job Title">
+                            <div class="d-flex flex-column justify-content-left"
+                                *ngIf="f?.jobtitle?.touched && f?.jobtitle?.errors" class="error-msg">
+                                <div *ngIf="f.jobtitle?.errors?.required" class="text-danger">Job Title is required
+                                </div>
+                            </div>
+                            <label>Job Title</label>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Location</mat-label>
+                                <input type="text" placeholder="Search for Location" matInput [formControl]="locations"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option *ngFor="let states of filteredOptions | async" [value]="addressData">
+                                        {{states}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <select class="form-control form-control-lg form-select" formControlName="technology"
+                                [ngClass]="{ 'is-invalid': f?.technology?.touched && f?.technology?.errors }">
+                                <option hidden selected value="">Please Select</option>
+                                <option *ngFor="let technology of technologies" [ngValue]="technology">
+                                    {{ technology.technologyValues }}
+                                </option>
+                            </select>
+                            <div *ngIf="f?.technology?.touched && f?.technology?.errors" class="error-msg">
+                                <div *ngIf="f.technology?.errors?.required" class="text-danger">Technology is required
+                                </div>
+                            </div>
+                            <label>Core Technology</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" (click)="next(4)"
+                            class="btn btn-primary w-30 mb-2 py-2">Proceed-></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #four>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><i aria-hidden="true" class="fa-arrow-left fas" (click)="next(3)"></i>
+                    Create New Job</h5>
+                <button class="btn btn-outline-danger">Cancel</button>
+            </div>
+        </div>
+        <div [formGroup]="form" class="card-body text-center">
+            <h2 class="card-text pt-5 txt primary-dark">Job Description</h2>
+            <quill-editor [styles]="{ height: '400px' }" class="ql-editor" data-gramm="false" contenteditable="false"
+                [ngClass]="{ 'is-invalid': f?.richText?.touched && f?.richText?.errors }" formControlName="richText"
+                (onContentChanged)="textChanged($event)">
+                <div *ngIf="f?.richText?.touched && f?.richText?.errors" class="error-msg">
+                    <div *ngIf="f.richText?.errors?.richText" class="text-danger">Description is required</div>
+                </div>
+            </quill-editor>
+            <div class="row">
+                <div class="col-12 col-md-8 offset-md-2">
+                    <form class="form mb-3" [formGroup]="form">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control"
+                                placeholder="Input each skill set and hit 'Enter' key" formControlName="skills"
+                                [ngClass]="{ 'is-invalid': f?.skills?.touched && skills?.length === 0 }"
+                                (keyup.enter)="addSkill()">
+                            <label>Input each skill set and hit 'Enter' key</label>
+                        </div>
+
+                        <mat-chip-list aria-label="Skills selection">
+                            <mat-chip color="primary" *ngFor="let n of skills; let i = index" [selectable]="true"
+                                [removable]="true" selected (removed)="removeSkill(i)">
+                                {{n}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-link secondary btn-with-icon right" (click)="next(3)">
+                <i aria-hidden="true" class="fa-arrow-left fas"></i>Back
+            </button>
+
+            <button class="btn btn-link btn-with-icon left" (click)="next(5)">
+                Next<i aria-hidden="true" class="fa-arrow-right fas"></i>
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #five>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><i aria-hidden="true" class="fa-arrow-left fas" (click)="next(4)"></i>
+                    Create New Job</h5>
+                <button class="btn btn-outline-danger">Cancel</button>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <h2 class="card-text pt-5 txt primary-dark">To which project are you hiring for?</h2>
+            <div [formGroup]="form" class="pt-4">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div class="form-group form-floating mb-3">
+                            <select class="form-control form-control-lg form-select" formControlName="department"
+                                [ngClass]="{ 'is-invalid': f?.department?.touched && f?.department?.errors }">
+                                <option hidden selected Value="">Select Department</option>
+                                <option *ngFor="let department of domainList" [ngValue]="department">
+                                    {{ department.domainValues }}
+                                </option>
+                            </select>
+                            <div *ngIf="f?.department?.touched && f?.department?.errors" class="error-msg">
+                                <div *ngIf="f.department?.errors?.department" class="text-danger">Department is required
+                                </div>
+                            </div>
+                            <label>Select Department</label>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <select class="form-control form-control-lg form-select" formControlName="project"
+                                [ngClass]="{ 'is-invalid': f?.project?.touched && f?.project?.errors }">
+                                <option hidden selected value="">Select Project</option>
+                                <option *ngFor="let project of projectName" [ngValue]="project">
+                                    {{ project.title }}
+                                </option>
+                            </select>
+                            <div *ngIf="f?.project?.touched && f?.project?.errors" class="error-msg">
+                                <div *ngIf="f.project?.errors?.project" class="text-danger">Project is required</div>
+                            </div>
+                            <label>Select Project</label>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn txt primary-dark">Skip<i class="fa fa-angle-double-right"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-link secondary btn-with-icon right" (click)="next(4)">
+                            <i aria-hidden="true" class="fa-arrow-left fas"></i>Back
+                        </button>
+
+                        <button class="btn btn-link btn-with-icon left" (click)="next(6)">
+                            Next<i aria-hidden="true" class="fa-arrow-right fas"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #six>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><i aria-hidden="true" class="fa-arrow-left fas" (click)="next(5)"></i>
+                    Create New Job</h5>
+                <button class="btn btn-outline-danger">Cancel</button>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <h2 class="card-text pt-5 txt primary-dark">One step ahead of the final line!</h2>
+            <div [formGroup]="form" class="pt-4">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-light m-2 w-100 mb-3 py-3"
+                                    [class.active]="isActive(list.lvl)"
+                                    *ngFor="let list of levels | orderBy : 'lvl'; let i = index" class="btn m-2 d-flex"
+                                    (click)="listData(list.exp); setActive(list.lvl)" formControlName="level"
+                                    ngDefaultControl>
+                                    {{ list.lvl }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-center">Years of experience</h4>
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-light m-2 w-100 mb-3 py-3"
+                                    *ngFor="let data of selected; let j = index" [class.active]="isActiveFirst(data)"
+                                    class="btn m-2" (click)="firstSetActive(data)" formControlName="experience"
+                                    ngDefaultControl>
+                                    {{ data }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-link secondary btn-with-icon right" (click)="next(5)">
+                            <i aria-hidden="true" class="fa-arrow-left fas"></i>Back
+                        </button>
+
+                        <button class="btn btn-link btn-with-icon left" (click)="next(7)">
+                            Next<i aria-hidden="true" class="fa-arrow-right fas"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #seven>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><i aria-hidden="true" class="fa-arrow-left fas" (click)="next(6)"></i>
+                    Create New Job</h5>
+                <button class="btn btn-outline-danger">Cancel</button>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <p>Almost done!<br />Few other relevent details.</p>
+            <h2 class="card-text pt-3 txt primary-dark">What is the hiring priority?</h2>
+            <div [formGroup]="form" class="pt-4">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div [formGroup]="form">
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-light m-2 w-100 mb-3 py-3"
+                                    *ngFor="let data of hiringPriority" [value]="data.id"
+                                    [class.active]="isActiveThird(data.hiringPriority)" (click)="thirdSetActive(data)"
+                                    class="btn m-2" formControlName="_level" ngDefaultControl>
+                                    {{ data.hiringPriority }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="card-text pt-3 txt primary-dark">Number of positions available</h2>
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div [formGroup]="form">
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light">-</button>
+                                    <button type="button" class="btn btn-light">1</button>
+                                    <button type="button" class="btn btn-light">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-link secondary btn-with-icon right" (click)="next(6)">
+                            <i aria-hidden="true" class="fa-arrow-left fas"></i>Back
+                        </button>
+
+                        <button class="btn btn-link btn-with-icon left" (click)="next(8)">
+                            Next<i aria-hidden="true" class="fa-arrow-right fas"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #eight>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0"><i aria-hidden="true" class="fa-arrow-left fas" (click)="next(7)"></i>
+                    Create New Job</h5>
+                <button class="btn btn-outline-danger">Cancel</button>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <p>What is the job level and experience required?</p>
+            <h2 class="card-text pt-3 txt primary-dark">Rate details</h2>
+            <div [formGroup]="form" class="pt-4">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group offset-md-4 col-md-4">
+                        <div [formGroup]="form">
+                            <div class="d-flex justify-content-center">
+                                <button type="button"
+                                    class="btn btn-light txt primary dropdown-toggle m-2 w-100 mb-3 py-3"
+                                    data-toggle="dropdown">Ruby On Rails</button>
+                                <button type="button"
+                                    class="btn btn-light txt primary dropdown-toggle m-2 w-100 mb-3 py-3"
+                                    data-toggle="dropdown">Junior</button>
+                                <button type="button"
+                                    class="btn btn-light txt primary dropdown-toggle m-2 w-100 mb-3 py-3"
+                                    data-toggle="dropdown">Medium</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-link secondary btn-with-icon right" (click)="next(8)">
+                            <i aria-hidden="true" class="fa-arrow-left fas"></i>Back
+                        </button>
+
+                        <button class="btn btn-outline-primary" (click)="next(9)">
+                            <i class="fa fa-eye"></i> Preview Job
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
