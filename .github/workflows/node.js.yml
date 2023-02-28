@@ -33,9 +33,12 @@ jobs:
           push: true
           tags: ajiqbrainx/front:7
       - name: Create kubeconfig
-        with:
-         kubeconfig: ${{ secrets.KUBECONFIG }}
-         command: apply
-         manifest_files: deployment.yaml,service.yaml
-         namespace: flexcub-testing
+        run: |
+         mkdir ${HOME}/.kube
+         echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+         cat ${HOME}/.kube/config
+      - name: Use context
+        run: kubectl config use-context octobay-api
+      - name: Deploy to K8s
+        run: kubectl get pods -n flexcub-testing
       
