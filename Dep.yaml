@@ -1,21 +1,21 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: flexcub-ui
-  namespace: staging
+  name: github-test
+  namespace: flexcub-testing
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flexcub-ui
+      app: github-test
   template:
     metadata:
       labels:
-        app: flexcub-ui
+        app: github-test
     spec:
       containers:
-        - name: flexcub-ui
-          image: vasanthdev/flex-ui:1
+        - name: github-test
+          image: ajiqbrainx/front
           ports:
             - containerPort: 80
 
