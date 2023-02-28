@@ -32,13 +32,10 @@ jobs:
           context: .
           push: true
           tags: ajiqbrainx/front:7
-      - name: Deploy to Kubernetes
-        uses: appleboy/kubectl-action@master
+      - name: Create kubeconfig
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          command: apply
-          manifest_files: Dep.yaml,Service.yaml
-          namespace: flexcub-testing
-        env:
-           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+         kubeconfig: ${{ secrets.KUBECONFIG }}
+         command: apply
+         manifest_files: deployment.yaml,service.yaml
+         namespace: flexcub-testing
+      
