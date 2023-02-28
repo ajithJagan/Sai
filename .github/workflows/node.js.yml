@@ -38,7 +38,7 @@ jobs:
          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
          cat ${HOME}/.kube/config
       - name: Get namespace
-        run: kubectl get namespace
+        run: /usr/bin/bash -e kubectl get namespace
       - name: Get Pods
         run: kubectl get pods -n flexcub-testing
       
