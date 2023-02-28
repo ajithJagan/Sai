@@ -2,7 +2,7 @@ FROM nginx:1.21.0-alpine
 COPY docker-files/nginx.conf /etc/nginx/
 COPY docker-files/blockbots.conf /etc/nginx/conf/
 COPY docker-files/botlimit.conf /etc/nginx/conf/
-COPY /dist/flex-ui/  /opt/www
+COPY /dist/flex-ui/ 
 
 
 RUN touch /var/run/nginx.pid && \
