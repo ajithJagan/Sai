@@ -26,4 +26,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ajiqbrainx/font:7
+          tags: ajiqbrainx/front:7
