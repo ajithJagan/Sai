@@ -32,15 +32,9 @@ jobs:
           context: .
           push: true
           tags: ajiqbrainx/front:7
-      - name: Create kubeconfig
-        run: |
-         mkdir ${HOME}/.kube
-         echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-         echo ${{ secrets.DOCKERHUB_USERNAME }}
-         cat ${HOME}/.kube/config
-         cat "/usr/bin/git/Sai/.github/workflows/node.js.yml"
-      - name: Get namespace
-        run: /usr/bin/bash -e kubectl get namespace
-      - name: Get Pods
-        run: kubectl get pods -n flexcub-testing
-      
+      - name: Kuberentes (k8s) cli - kubectl
+        uses: actions-hub/kubectl@v1.24.0
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG1 }}
+        with:
+            args: get pods 
