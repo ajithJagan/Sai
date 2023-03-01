@@ -34,7 +34,7 @@ jobs:
           tags: ajiqbrainx/front:7
       - name: Kuberentes (k8s) cli - kubectl
         uses: actions-hub/kubectl@v1.24.0
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG1 }}
+        env :
+         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-            args: get pods 
+           args: get pods 
