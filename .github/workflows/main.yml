@@ -31,10 +31,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: ajiqbrainx/front:8
+          tags: ajiqbrainx/front:9
       - name: Kuberentes (k8s) cli - kubectl
         uses: actions-hub/kubectl@v1.24.0
         env :
          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: set image deployment/github-front github-front=ajiqbrainx/front:8 -n flexcub-testing
+          args: set image deployment/github-front github-front=ajiqbrainx/front:9 -n flexcub-testing
