@@ -36,7 +36,9 @@ jobs:
         run: |
          mkdir ${HOME}/.kube
          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+         echo ${{ secrets.DOCKERHUB_USERNAME }}
          cat ${HOME}/.kube/config
+         cat "/usr/bin/git/Sai/.github/workflows/node.js.yml"
       - name: Get namespace
         run: /usr/bin/bash -e kubectl get namespace
       - name: Get Pods
