@@ -7,6 +7,11 @@ on:
         default: "dev"
         type: "string"
         required: true
+      imageVersion:
+        description: image/imageId
+        default: "flexcubhub/testing"
+        type: "string"
+        required: true   
 jobs:
   DEV:
 
@@ -29,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: flexcubhub/testing
+          images: ${{ inputs.imageVersion }}
           tags: |
             type=raw,value={{date 'Y-M-D-T-H-m-s'}}
       - name: Login to DockerHub
