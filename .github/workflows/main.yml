@@ -24,7 +24,7 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Build Angular project
-        run: npm run ${{ inputs.username }}
+        run: npm run ${{ inputs.version }}
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
