@@ -12,3 +12,9 @@ on:
         default: "flexcubhub/testing"
         type: "string"
         required: true 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invoke another file
+        uses: ./.github/workflows/main.yml
