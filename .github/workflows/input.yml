@@ -1,0 +1,14 @@
+name: Manual Inputs
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: env
+        default: "dev"
+        type: "string"
+        required: true
+      imageVersion:
+        description: image/imageId
+        default: "flexcubhub/testing"
+        type: "string"
+        required: true 
